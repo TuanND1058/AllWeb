@@ -1,6 +1,10 @@
 [
   {
-    "file": "xxx.html",
-    "title": "xxx"
+    "file": "hiragana-katakana.html",
+    "title": "Learn Japanese"
+  },
+  {
+    "file": "example-page.html",
+    "title": "Example Page"
   }
 ]
