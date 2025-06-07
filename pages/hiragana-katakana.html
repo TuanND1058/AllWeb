@@ -5,23 +5,699 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn Japanese</title>
-    <link rel="stylesheet" href="../css/style-pages.css">
-    <style>
 
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPMincho&family=Sawarabi+Mincho&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style-pages.css">
+    <link rel="stylesheet" href="../css/hiragana-katakana.css">
 </head>
 
 <body>
     <a href="../index.html" class="back-button">← Back to Menu</a>
 
     <div class="content">
-        <h1>Welcome to the Example Page</h1>
-        <p>This is a sample content area. Replace it with your actual page content.</p>
+        <div id="overlay"></div>
+
+        <div class="mode-container">
+            <input type="checkbox" id="toggleTable">
+            <span>|</span>
+            <input type="checkbox" id="toggleMode">
+            <span>|</span>
+            <input type="checkbox" id="modeDefault" checked disabled>
+            <input type="checkbox" id="modeD">
+            <input type="checkbox" id="modeG">
+        </div>
+
+        <div class="radio-container">
+            <input type="radio" id="radioButton1" name="toggle" checked>
+            <label for="radioButton1" class="label">Hiragana</label>
+
+            <input type="radio" id="radioButton2" name="toggle">
+            <label for="radioButton2" class="label">Katakana</label>
+        </div>
+
+        <div class="square-container">
+            <div class="square" id="square">
+                <span class="main-note" id="mainnote" style="display: none;">A</span>
+                <span class="main-character" id="character">A</span>
+                <span class="note" id="note">a</span>
+            </div>
+        </div>
+
+        <div class="drawing-container" style="display: none;"><!-- remove display: none; -->
+            <div class="drawing" id="drawing">
+                <canvas class="drawing-canvas" id="drawingCanvas"></canvas>
+                <span class="reset-canvas" id="resetCanvas">↺</button>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="textInput" placeholder="Nhập chữ cái" autofocus>
+        </div>
+
+        <div style="overflow: scroll; display: grid; justify-items: center;">
+
+            <div class="table-container" style="width: 900px;">
+                <div class="square-table" id="squareTable">
+                    <div class="row">
+                        <div class="cell" id="cell_a">
+                            <span class="cell-main-note">a</span>
+                            <span class="cell-main-character">a</span>
+                            <span class="cell-note">a</span>
+                        </div>
+                        <div class="cell" id="cell_ka">
+                            <span class="cell-main-note">ka</span>
+                            <span class="cell-main-character">ka</span>
+                            <span class="cell-note">ka</span>
+                        </div>
+                        <div class="cell" id="cell_sa">
+                            <span class="cell-main-note">sa</span>
+                            <span class="cell-main-character">sa</span>
+                            <span class="cell-note">sa</span>
+                        </div>
+                        <div class="cell" id="cell_ta">
+                            <span class="cell-main-note">ta</span>
+                            <span class="cell-main-character">ta</span>
+                            <span class="cell-note">ta</span>
+                        </div>
+                        <div class="cell" id="cell_na">
+                            <span class="cell-main-note">na</span>
+                            <span class="cell-main-character">na</span>
+                            <span class="cell-note">na</span>
+                        </div>
+                        <div class="cell" id="cell_ha">
+                            <span class="cell-main-note">ha</span>
+                            <span class="cell-main-character">ha</span>
+                            <span class="cell-note">ha</span>
+                        </div>
+                        <div class="cell" id="cell_ma">
+                            <span class="cell-main-note">ma</span>
+                            <span class="cell-main-character">ma</span>
+                            <span class="cell-note">ma</span>
+                        </div>
+                        <div class="cell" id="cell_ya">
+                            <span class="cell-main-note">ya</span>
+                            <span class="cell-main-character">ya</span>
+                            <span class="cell-note">ya</span>
+                        </div>
+                        <div class="cell" id="cell_ra">
+                            <span class="cell-main-note">ra</span>
+                            <span class="cell-main-character">ra</span>
+                            <span class="cell-note">ra</span>
+                        </div>
+                        <div class="cell" id="cell_wa">
+                            <span class="cell-main-note">wa</span>
+                            <span class="cell-main-character">wa</span>
+                            <span class="cell-note">wa</span>
+                        </div>
+                        <div class="cell" id="cell_n">
+                            <span class="cell-main-note">n</span>
+                            <span class="cell-main-character">n</span>
+                            <span class="cell-note">n</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" id="cell_i">
+                            <span class="cell-main-note">i</span>
+                            <span class="cell-main-character">i</span>
+                            <span class="cell-note">i</span>
+                        </div>
+                        <div class="cell" id="cell_ki">
+                            <span class="cell-main-note">ki</span>
+                            <span class="cell-main-character">ki</span>
+                            <span class="cell-note">ki</span>
+                        </div>
+                        <div class="cell" id="cell_shi">
+                            <span class="cell-main-note">shi</span>
+                            <span class="cell-main-character">shi</span>
+                            <span class="cell-note">shi</span>
+                        </div>
+                        <div class="cell" id="cell_chi">
+                            <span class="cell-main-note">chi</span>
+                            <span class="cell-main-character">chi</span>
+                            <span class="cell-note">chi</span>
+                        </div>
+                        <div class="cell" id="cell_ni">
+                            <span class="cell-main-note">ni</span>
+                            <span class="cell-main-character">ni</span>
+                            <span class="cell-note">ni</span>
+                        </div>
+                        <div class="cell" id="cell_hi">
+                            <span class="cell-main-note">hi</span>
+                            <span class="cell-main-character">hi</span>
+                            <span class="cell-note">hi</span>
+                        </div>
+                        <div class="cell" id="cell_mi">
+                            <span class="cell-main-note">mi</span>
+                            <span class="cell-main-character">mi</span>
+                            <span class="cell-note">mi</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_ri">
+                            <span class="cell-main-note">ri</span>
+                            <span class="cell-main-character">ri</span>
+                            <span class="cell-note">ri</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" id="cell_u">
+                            <span class="cell-main-note">u</span>
+                            <span class="cell-main-character">u</span>
+                            <span class="cell-note">u</span>
+                        </div>
+                        <div class="cell" id="cell_ku">
+                            <span class="cell-main-note">ku</span>
+                            <span class="cell-main-character">ku</span>
+                            <span class="cell-note">ku</span>
+                        </div>
+                        <div class="cell" id="cell_su">
+                            <span class="cell-main-note">su</span>
+                            <span class="cell-main-character">su</span>
+                            <span class="cell-note">su</span>
+                        </div>
+                        <div class="cell" id="cell_tsu">
+                            <span class="cell-main-note">tsu</span>
+                            <span class="cell-main-character">tsu</span>
+                            <span class="cell-note">tsu</span>
+                        </div>
+                        <div class="cell" id="cell_nu">
+                            <span class="cell-main-note">nu</span>
+                            <span class="cell-main-character">nu</span>
+                            <span class="cell-note">nu</span>
+                        </div>
+                        <div class="cell" id="cell_fu">
+                            <span class="cell-main-note">fu</span>
+                            <span class="cell-main-character">fu</span>
+                            <span class="cell-note">fu</span>
+                        </div>
+                        <div class="cell" id="cell_mu">
+                            <span class="cell-main-note">mu</span>
+                            <span class="cell-main-character">mu</span>
+                            <span class="cell-note">mu</span>
+                        </div>
+                        <div class="cell" id="cell_yu">
+                            <span class="cell-main-note">yu</span>
+                            <span class="cell-main-character">yu</span>
+                            <span class="cell-note">yu</span>
+                        </div>
+                        <div class="cell" id="cell_ru">
+                            <span class="cell-main-note">ru</span>
+                            <span class="cell-main-character">ru</span>
+                            <span class="cell-note">ru</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" id="cell_e">
+                            <span class="cell-main-note">e</span>
+                            <span class="cell-main-character">e</span>
+                            <span class="cell-note">e</span>
+                        </div>
+                        <div class="cell" id="cell_ke">
+                            <span class="cell-main-note">ke</span>
+                            <span class="cell-main-character">ke</span>
+                            <span class="cell-note">ke</span>
+                        </div>
+                        <div class="cell" id="cell_se">
+                            <span class="cell-main-note">se</span>
+                            <span class="cell-main-character">se</span>
+                            <span class="cell-note">se</span>
+                        </div>
+                        <div class="cell" id="cell_te">
+                            <span class="cell-main-note">te</span>
+                            <span class="cell-main-character">te</span>
+                            <span class="cell-note">te</span>
+                        </div>
+                        <div class="cell" id="cell_ne">
+                            <span class="cell-main-note">ne</span>
+                            <span class="cell-main-character">ne</span>
+                            <span class="cell-note">ne</span>
+                        </div>
+                        <div class="cell" id="cell_he">
+                            <span class="cell-main-note">he</span>
+                            <span class="cell-main-character">he</span>
+                            <span class="cell-note">he</span>
+                        </div>
+                        <div class="cell" id="cell_me">
+                            <span class="cell-main-note">me</span>
+                            <span class="cell-main-character">me</span>
+                            <span class="cell-note">me</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_re">
+                            <span class="cell-main-note">re</span>
+                            <span class="cell-main-character">re</span>
+                            <span class="cell-note">re</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell" id="cell_o">
+                            <span class="cell-main-note">o</span>
+                            <span class="cell-main-character">o</span>
+                            <span class="cell-note">o</span>
+                        </div>
+                        <div class="cell" id="cell_ko">
+                            <span class="cell-main-note">ko</span>
+                            <span class="cell-main-character">ko</span>
+                            <span class="cell-note">ko</span>
+                        </div>
+                        <div class="cell" id="cell_so">
+                            <span class="cell-main-note">so</span>
+                            <span class="cell-main-character">so</span>
+                            <span class="cell-note">so</span>
+                        </div>
+                        <div class="cell" id="cell_to">
+                            <span class="cell-main-note">to</span>
+                            <span class="cell-main-character">to</span>
+                            <span class="cell-note">to</span>
+                        </div>
+                        <div class="cell" id="cell_no">
+                            <span class="cell-main-note">no</span>
+                            <span class="cell-main-character">no</span>
+                            <span class="cell-note">no</span>
+                        </div>
+                        <div class="cell" id="cell_ho">
+                            <span class="cell-main-note">ho</span>
+                            <span class="cell-main-character">ho</span>
+                            <span class="cell-note">ho</span>
+                        </div>
+                        <div class="cell" id="cell_mo">
+                            <span class="cell-main-note">mo</span>
+                            <span class="cell-main-character">mo</span>
+                            <span class="cell-note">mo</span>
+                        </div>
+                        <div class="cell" id="cell_yo">
+                            <span class="cell-main-note">yo</span>
+                            <span class="cell-main-character">yo</span>
+                            <span class="cell-note">yo</span>
+                        </div>
+                        <div class="cell" id="cell_ro">
+                            <span class="cell-main-note">ro</span>
+                            <span class="cell-main-character">ro</span>
+                            <span class="cell-note">ro</span>
+                        </div>
+                        <div class="cell" id="cell_wo">
+                            <span class="cell-main-note">wo</span>
+                            <span class="cell-main-character">wo</span>
+                            <span class="cell-note">wo</span>
+                        </div>
+                        <div class="cell"></div>
+                    </div>
+                    <!-- D -->
+                    <div class="row-line"></div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_ga">
+                            <span class="cell-main-note">ga</span>
+                            <span class="cell-main-character">ga</span>
+                            <span class="cell-note">ga</span>
+                        </div>
+                        <div class="cell" id="cell_za">
+                            <span class="cell-main-note">za</span>
+                            <span class="cell-main-character">za</span>
+                            <span class="cell-note">za</span>
+                        </div>
+                        <div class="cell" id="cell_da">
+                            <span class="cell-main-note">da</span>
+                            <span class="cell-main-character">da</span>
+                            <span class="cell-note">da</span>
+                        </div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_ba">
+                            <span class="cell-main-note">ba</span>
+                            <span class="cell-main-character">ba</span>
+                            <span class="cell-note">ba</span>
+                        </div>
+                        <div class="cell" id="cell_pa">
+                            <span class="cell-main-note">pa</span>
+                            <span class="cell-main-character">pa</span>
+                            <span class="cell-note">pa</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_gi">
+                            <span class="cell-main-note">gi</span>
+                            <span class="cell-main-character">gi</span>
+                            <span class="cell-note">gi</span>
+                        </div>
+                        <div class="cell" id="cell_ji">
+                            <span class="cell-main-note">ji</span>
+                            <span class="cell-main-character">ji</span>
+                            <span class="cell-note">ji</span>
+                        </div>
+                        <div class="cell" id="cell_ji2">
+                            <span class="cell-main-note">ji</span>
+                            <span class="cell-main-character">ji</span>
+                            <span class="cell-note">ji</span>
+                        </div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_bi">
+                            <span class="cell-main-note">bi</span>
+                            <span class="cell-main-character">bi</span>
+                            <span class="cell-note">bi</span>
+                        </div>
+                        <div class="cell" id="cell_pi">
+                            <span class="cell-main-note">pi</span>
+                            <span class="cell-main-character">pi</span>
+                            <span class="cell-note">pi</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_gu">
+                            <span class="cell-main-note">gu</span>
+                            <span class="cell-main-character">gu</span>
+                            <span class="cell-note">gu</span>
+                        </div>
+                        <div class="cell" id="cell_zu">
+                            <span class="cell-main-note">zu</span>
+                            <span class="cell-main-character">zu</span>
+                            <span class="cell-note">zu</span>
+                        </div>
+                        <div class="cell" id="cell_zu2">
+                            <span class="cell-main-note">zu</span>
+                            <span class="cell-main-character">zu</span>
+                            <span class="cell-note">zu</span>
+                        </div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_bu">
+                            <span class="cell-main-note">bu</span>
+                            <span class="cell-main-character">bu</span>
+                            <span class="cell-note">bu</span>
+                        </div>
+                        <div class="cell" id="cell_pu">
+                            <span class="cell-main-note">pu</span>
+                            <span class="cell-main-character">pu</span>
+                            <span class="cell-note">pu</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_ge">
+                            <span class="cell-main-note">ge</span>
+                            <span class="cell-main-character">ge</span>
+                            <span class="cell-note">ge</span>
+                        </div>
+                        <div class="cell" id="cell_ze">
+                            <span class="cell-main-note">ze</span>
+                            <span class="cell-main-character">ze</span>
+                            <span class="cell-note">ze</span>
+                        </div>
+                        <div class="cell" id="cell_de">
+                            <span class="cell-main-note">de</span>
+                            <span class="cell-main-character">de</span>
+                            <span class="cell-note">de</span>
+                        </div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_be">
+                            <span class="cell-main-note">be</span>
+                            <span class="cell-main-character">be</span>
+                            <span class="cell-note">be</span>
+                        </div>
+                        <div class="cell" id="cell_pe">
+                            <span class="cell-main-note">pe</span>
+                            <span class="cell-main-character">pe</span>
+                            <span class="cell-note">pe</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_go">
+                            <span class="cell-main-note">go</span>
+                            <span class="cell-main-character">go</span>
+                            <span class="cell-note">go</span>
+                        </div>
+                        <div class="cell" id="cell_zo">
+                            <span class="cell-main-note">zo</span>
+                            <span class="cell-main-character">zo</span>
+                            <span class="cell-note">zo</span>
+                        </div>
+                        <div class="cell" id="cell_do">
+                            <span class="cell-main-note">do</span>
+                            <span class="cell-main-character">do</span>
+                            <span class="cell-note">do</span>
+                        </div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_bo">
+                            <span class="cell-main-note">bo</span>
+                            <span class="cell-main-character">bo</span>
+                            <span class="cell-note">bo</span>
+                        </div>
+                        <div class="cell" id="cell_po">
+                            <span class="cell-main-note">po</span>
+                            <span class="cell-main-character">po</span>
+                            <span class="cell-note">po</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <!-- G -->
+                    <div class="row-line"></div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_kya">
+                            <span class="cell-main-note">kya</span>
+                            <span class="cell-main-character">kya</span>
+                            <span class="cell-note">kya</span>
+                        </div>
+                        <div class="cell" id="cell_sha">
+                            <span class="cell-main-note">sha</span>
+                            <span class="cell-main-character">sha</span>
+                            <span class="cell-note">sha</span>
+                        </div>
+                        <div class="cell" id="cell_cha">
+                            <span class="cell-main-note">cha</span>
+                            <span class="cell-main-character">cha</span>
+                            <span class="cell-note">cha</span>
+                        </div>
+                        <div class="cell" id="cell_nya">
+                            <span class="cell-main-note">nya</span>
+                            <span class="cell-main-character">nya</span>
+                            <span class="cell-note">nya</span>
+                        </div>
+                        <div class="cell" id="cell_hya">
+                            <span class="cell-main-note">hya</span>
+                            <span class="cell-main-character">hya</span>
+                            <span class="cell-note">hya</span>
+                        </div>
+                        <div class="cell" id="cell_mya">
+                            <span class="cell-main-note">mya</span>
+                            <span class="cell-main-character">mya</span>
+                            <span class="cell-note">mya</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_rya">
+                            <span class="cell-main-note">rya</span>
+                            <span class="cell-main-character">rya</span>
+                            <span class="cell-note">rya</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_kyu">
+                            <span class="cell-main-note">kyu</span>
+                            <span class="cell-main-character">kyu</span>
+                            <span class="cell-note">kyu</span>
+                        </div>
+                        <div class="cell" id="cell_shu">
+                            <span class="cell-main-note">shu</span>
+                            <span class="cell-main-character">shu</span>
+                            <span class="cell-note">shu</span>
+                        </div>
+                        <div class="cell" id="cell_chu">
+                            <span class="cell-main-note">chu</span>
+                            <span class="cell-main-character">chu</span>
+                            <span class="cell-note">chu</span>
+                        </div>
+                        <div class="cell" id="cell_nyu">
+                            <span class="cell-main-note">nyu</span>
+                            <span class="cell-main-character">nyu</span>
+                            <span class="cell-note">nyu</span>
+                        </div>
+                        <div class="cell" id="cell_hyu">
+                            <span class="cell-main-note">hyu</span>
+                            <span class="cell-main-character">hyu</span>
+                            <span class="cell-note">hyu</span>
+                        </div>
+                        <div class="cell" id="cell_myu">
+                            <span class="cell-main-note">myu</span>
+                            <span class="cell-main-character">myu</span>
+                            <span class="cell-note">myu</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_ryu">
+                            <span class="cell-main-note">ryu</span>
+                            <span class="cell-main-character">ryu</span>
+                            <span class="cell-note">ryu</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_kyo">
+                            <span class="cell-main-note">kyo</span>
+                            <span class="cell-main-character">kyo</span>
+                            <span class="cell-note">kyo</span>
+                        </div>
+                        <div class="cell" id="cell_sho">
+                            <span class="cell-main-note">sho</span>
+                            <span class="cell-main-character">sho</span>
+                            <span class="cell-note">sho</span>
+                        </div>
+                        <div class="cell" id="cell_cho">
+                            <span class="cell-main-note">cho</span>
+                            <span class="cell-main-character">cho</span>
+                            <span class="cell-note">cho</span>
+                        </div>
+                        <div class="cell" id="cell_nyo">
+                            <span class="cell-main-note">nyo</span>
+                            <span class="cell-main-character">nyo</span>
+                            <span class="cell-note">nyo</span>
+                        </div>
+                        <div class="cell" id="cell_hyo">
+                            <span class="cell-main-note">hyo</span>
+                            <span class="cell-main-character">hyo</span>
+                            <span class="cell-note">hyo</span>
+                        </div>
+                        <div class="cell" id="cell_myo">
+                            <span class="cell-main-note">myo</span>
+                            <span class="cell-main-character">myo</span>
+                            <span class="cell-note">myo</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_ryo">
+                            <span class="cell-main-note">ryo</span>
+                            <span class="cell-main-character">ryo</span>
+                            <span class="cell-note">ryo</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <!-- G -->
+                    <div class="row-line"></div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_gya">
+                            <span class="cell-main-note">gya</span>
+                            <span class="cell-main-character">gya</span>
+                            <span class="cell-note">gya</span>
+                        </div>
+                        <div class="cell" id="cell_ja">
+                            <span class="cell-main-note">ja</span>
+                            <span class="cell-main-character">ja</span>
+                            <span class="cell-note">ja</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_bya">
+                            <span class="cell-main-note">bya</span>
+                            <span class="cell-main-character">bya</span>
+                            <span class="cell-note">bya</span>
+                        </div>
+                        <div class="cell" id="cell_pya">
+                            <span class="cell-main-note">pya</span>
+                            <span class="cell-main-character">pya</span>
+                            <span class="cell-note">pya</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_gyu">
+                            <span class="cell-main-note">gyu</span>
+                            <span class="cell-main-character">gyu</span>
+                            <span class="cell-note">gyu</span>
+                        </div>
+                        <div class="cell" id="cell_ju">
+                            <span class="cell-main-note">ju</span>
+                            <span class="cell-main-character">ju</span>
+                            <span class="cell-note">ju</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_byu">
+                            <span class="cell-main-note">byu</span>
+                            <span class="cell-main-character">byu</span>
+                            <span class="cell-note">byu</span>
+                        </div>
+                        <div class="cell" id="cell_pyu">
+                            <span class="cell-main-note">pyu</span>
+                            <span class="cell-main-character">pyu</span>
+                            <span class="cell-note">pyu</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                    <div class="row">
+                        <div class="cell"></div>
+                        <div class="cell" id="cell_gyo">
+                            <span class="cell-main-note">gyo</span>
+                            <span class="cell-main-character">gyo</span>
+                            <span class="cell-note">gyo</span>
+                        </div>
+                        <div class="cell" id="cell_jo">
+                            <span class="cell-main-note">jo</span>
+                            <span class="cell-main-character">jo</span>
+                            <span class="cell-note">jo</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell" style="width: calc(75px / 2);"></div>
+                        <div class="cell" id="cell_byo">
+                            <span class="cell-main-note">byo</span>
+                            <span class="cell-main-character">byo</span>
+                            <span class="cell-note">byo</span>
+                        </div>
+                        <div class="cell" id="cell_pyo">
+                            <span class="cell-main-note">pyo</span>
+                            <span class="cell-main-character">pyo</span>
+                            <span class="cell-note">pyo</span>
+                        </div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <script>
-
-    </script>
+    <script src="../js/hiragana-katakana.js"></script>
 </body>
 
 </html>
