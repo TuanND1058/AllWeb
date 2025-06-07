@@ -111,112 +111,13 @@ const dataHK_G = [
   { keyH: 'ぴょ', keyK: 'ピョ', value: 'pyo' },
 ];
 
-// load data table
-function loadDataTable() {
-  dataHK.forEach((x) => {
-    const cell = document.getElementById(`cell_${x.value}`);
-    if (cell) {
-      if (radioButton1.checked) {
-        cell.querySelectorAll('span').forEach((span) => {
-          if (span.classList.contains('cell-main-note')) {
-            span.textContent = x.keyK;
-          } else if (span.classList.contains('cell-main-character')) {
-            span.textContent = x.keyH;
-          } else if (span.classList.contains('cell-note')) {
-            span.textContent = x.value;
-          }
-        });
-      }
-      if (radioButton2.checked) {
-        cell.querySelectorAll('span').forEach((span) => {
-          if (span.classList.contains('cell-main-note')) {
-            span.textContent = x.keyH;
-          } else if (span.classList.contains('cell-main-character')) {
-            span.textContent = x.keyK;
-          } else if (span.classList.contains('cell-note')) {
-            span.textContent = x.value;
-          }
-        });
-      }
-    }
-  });
-  let count = 0;
-  dataHK_D.forEach((x) => {
-    let suffix = (x.value === 'ji' || x.value === 'zu') && count > 1 ? '2' : '';
-    let cell = document.getElementById(`cell_${x.value}${suffix}`);
-    if (x.value === 'ji' || x.value === 'zu') {
-      count++;
-    }
-    if (cell) {
-      if (radioButton1.checked) {
-        cell.querySelectorAll('span').forEach((span) => {
-          if (span.classList.contains('cell-main-note')) {
-            span.textContent = x.keyK;
-          } else if (span.classList.contains('cell-main-character')) {
-            span.textContent = x.keyH;
-          } else if (span.classList.contains('cell-note')) {
-            span.textContent = x.value;
-          }
-        });
-      }
-      if (radioButton2.checked) {
-        cell.querySelectorAll('span').forEach((span) => {
-          if (span.classList.contains('cell-main-note')) {
-            span.textContent = x.keyH;
-          } else if (span.classList.contains('cell-main-character')) {
-            span.textContent = x.keyK;
-          } else if (span.classList.contains('cell-note')) {
-            span.textContent = x.value;
-          }
-        });
-      }
-    }
-  });
-  dataHK_G.forEach((x) => {
-    const cell = document.getElementById(`cell_${x.value}`);
-    if (cell) {
-      if (radioButton1.checked) {
-        cell.querySelectorAll('span').forEach((span) => {
-          if (span.classList.contains('cell-main-note')) {
-            span.innerHTML = `<span>${x.keyK.charAt(
-              0
-            )}</span><span class="small">${x.keyK.charAt(1)}</span>`;
-          } else if (span.classList.contains('cell-main-character')) {
-            span.innerHTML = `<span>${x.keyH.charAt(
-              0
-            )}</span><span class="small">${x.keyH.charAt(1)}</span>`;
-          } else if (span.classList.contains('cell-note')) {
-            span.textContent = x.value;
-          }
-        });
-      }
-      if (radioButton2.checked) {
-        cell.querySelectorAll('span').forEach((span) => {
-          if (span.classList.contains('cell-main-note')) {
-            span.innerHTML = `<span>${x.keyH.charAt(
-              0
-            )}</span><span class="small">${x.keyH.charAt(1)}</span>`;
-          } else if (span.classList.contains('cell-main-character')) {
-            span.innerHTML = `<span>${x.keyK.charAt(
-              0
-            )}</span><span class="small">${x.keyK.charAt(1)}</span>`;
-          } else if (span.classList.contains('cell-note')) {
-            span.textContent = x.value;
-          }
-        });
-      }
-    }
-  });
-}
-// end of load data table
-
 // data loading
 const modeDefault = document.getElementById('modeDefault');
 const modeD = document.getElementById('modeD');
 const modeG = document.getElementById('modeG');
 const toggleMode = document.getElementById('toggleMode');
 const textInput = document.getElementById('textInput');
-const mainnote = document.getElementById('mainnote');
+const mainNote = document.getElementById('mainNote');
 const character = document.getElementById('character');
 const note = document.getElementById('note');
 const square = document.getElementById('square');
@@ -312,7 +213,7 @@ function checkText() {
     return;
   }
 
-  if (textInput.value.includes('modetext')) {
+  if (textInput.value.includes('modet')) {
     toggleMode.checked = !toggleMode.checked;
     changeMode();
     textInput.value = '';
@@ -404,8 +305,7 @@ function handleTouch() {
 }
 
 function toggleNote() {
-  note.style.visibility =
-    note.style.visibility === 'visible' ? 'hidden' : 'visible';
+  note.style.visibility = note.style.visibility === 'visible' ? 'hidden' : 'visible';
   textInput.value = '';
   textInput.focus();
 }
@@ -456,21 +356,17 @@ function loadData() {
 
   if (toggleMode.checked) {
     character.textContent = data.value;
-    mainnote.textContent = '';
+    mainNote.textContent = '';
     if (radioButton1.checked) {
       if (data.keyH.length > 1) {
-        note.innerHTML = `<span>${data.keyH.charAt(
-          0
-        )}</span><span class="small">${data.keyH.charAt(1)}</span>`;
+        note.innerHTML = `<span>${data.keyH.charAt(0)}</span><span class="small">${data.keyH.charAt(1)}</span>`;
       } else {
         note.textContent = data.keyH;
       }
     }
     if (radioButton2.checked) {
       if (data.keyK.length > 1) {
-        note.innerHTML = `<span>${data.keyK.charAt(
-          0
-        )}</span><span class="small">${data.keyK.charAt(1)}</span>`;
+        note.innerHTML = `<span>${data.keyK.charAt(0)}</span><span class="small">${data.keyK.charAt(1)}</span>`;
       } else {
         note.textContent = data.keyK;
       }
@@ -478,28 +374,20 @@ function loadData() {
   } else {
     if (radioButton1.checked) {
       if (data.keyH.length > 1) {
-        character.innerHTML = `<span>${data.keyH.charAt(
-          0
-        )}</span><span class="small">${data.keyH.charAt(1)}</span>`;
-        mainnote.innerHTML = `<span>${data.keyK.charAt(
-          0
-        )}</span><span class="small">${data.keyK.charAt(1)}</span>`;
+        character.innerHTML = `<span>${data.keyH.charAt(0)}</span><span class="small">${data.keyH.charAt(1)}</span>`;
+        mainNote.innerHTML = `<span>${data.keyK.charAt(0)}</span><span class="small">${data.keyK.charAt(1)}</span>`;
       } else {
         character.textContent = data.keyH;
-        mainnote.textContent = data.keyK;
+        mainNote.textContent = data.keyK;
       }
     }
     if (radioButton2.checked) {
       if (data.keyK.length > 1) {
-        character.innerHTML = `<span>${data.keyK.charAt(
-          0
-        )}</span><span class="small">${data.keyK.charAt(1)}</span>`;
-        mainnote.innerHTML = `<span>${data.keyH.charAt(
-          0
-        )}</span><span class="small">${data.keyH.charAt(1)}</span>`;
+        character.innerHTML = `<span>${data.keyK.charAt(0)}</span><span class="small">${data.keyK.charAt(1)}</span>`;
+        mainNote.innerHTML = `<span>${data.keyH.charAt(0)}</span><span class="small">${data.keyH.charAt(1)}</span>`;
       } else {
         character.textContent = data.keyK;
-        mainnote.textContent = data.keyH;
+        mainNote.textContent = data.keyH;
       }
     }
     note.textContent = data.value;
@@ -510,6 +398,88 @@ function loadData() {
   fnResetCanvas();
 }
 // end of load data fist
+
+// load data table
+function loadDataTable() {
+  dataHK.forEach((x) => {
+    const cell = document.getElementById(`cell_${x.value}`);
+    if (cell) {
+      let mainNote;
+      let mainChar;
+      if (radioButton1.checked) {
+        mainNote = x.keyK;
+        mainChar = x.keyH;
+      }
+      if (radioButton2.checked) {
+        mainNote = x.keyH;
+        mainChar = x.keyK;
+      }
+      cell.querySelectorAll('span').forEach((span) => {
+        if (span.classList.contains('cell-main-note')) {
+          span.textContent = mainNote;
+        } else if (span.classList.contains('cell-main-character')) {
+          span.textContent = mainChar;
+        } else if (span.classList.contains('cell-note')) {
+          span.textContent = x.value;
+        }
+      });
+    }
+  });
+  let count = 0;
+  dataHK_D.forEach((x) => {
+    const suffix = (x.value === 'ji' || x.value === 'zu') && count > 1 ? '2' : '';
+    const cell = document.getElementById(`cell_${x.value}${suffix}`);
+    if (x.value === 'ji' || x.value === 'zu') {
+      count++;
+    }
+    if (cell) {
+      let mainNote;
+      let mainChar;
+      if (radioButton1.checked) {
+        mainNote = x.keyK;
+        mainChar = x.keyH;
+      }
+      if (radioButton2.checked) {
+        mainNote = x.keyH;
+        mainChar = x.keyK;
+      }
+      cell.querySelectorAll('span').forEach((span) => {
+        if (span.classList.contains('cell-main-note')) {
+          span.textContent = mainNote;
+        } else if (span.classList.contains('cell-main-character')) {
+          span.textContent = mainChar;
+        } else if (span.classList.contains('cell-note')) {
+          span.textContent = x.value;
+        }
+      });
+    }
+  });
+  dataHK_G.forEach((x) => {
+    const cell = document.getElementById(`cell_${x.value}`);
+    if (cell) {
+      let mainNote;
+      let mainChar;
+      if (radioButton1.checked) {
+        mainNote = x.keyK;
+        mainChar = x.keyH;
+      }
+      if (radioButton2.checked) {
+        mainNote = x.keyH;
+        mainChar = x.keyK;
+      }
+      cell.querySelectorAll('span').forEach((span) => {
+        if (span.classList.contains('cell-main-note')) {
+          span.innerHTML = `<span>${mainNote.charAt(0)}</span><span class="small">${mainNote.charAt(1)}</span>`;
+        } else if (span.classList.contains('cell-main-character')) {
+          span.innerHTML = `<span>${mainChar.charAt(0)}</span><span class="small">${mainChar.charAt(1)}</span>`;
+        } else if (span.classList.contains('cell-note')) {
+          span.textContent = x.value;
+        }
+      });
+    }
+  });
+}
+// end of load data table
 
 // reset canvas
 function fnResetCanvas() {
