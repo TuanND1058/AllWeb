@@ -1,3 +1,4 @@
+const data = [...data1, ...data2];
 const searchInput = document.getElementById('searchInput');
 const qaList = document.getElementById('qaList');
 const pageTitle = document.getElementById('pageTitle');
