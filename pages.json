@@ -1,10 +1,14 @@
 [
   {
+    "file": "example-page.html",
+    "title": "Example Page"
+  },
+  {
     "file": "hiragana-katakana.html",
     "title": "Learn Japanese"
   },
   {
-    "file": "example-page.html",
+    "file": "AI-900.html",
     "title": "Example Page"
   }
 ]
